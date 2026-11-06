@@ -1,49 +1,61 @@
 # Google_search_automation
-A Python script using Selenium4 to perform a Google search and retrieve search results. The script utilizes the Chrome WebDriver, maximizes the browser window, enters a search term ("Nature Images"), submits the search, and prints the search results.
-# Selenium Google Search Test
 
-## Overview
-This repository contains a Python script for testing the Google Search box using Selenium4. The script automates the process of performing a Google search and retrieving the search results.
+A small Python + Selenium 4 script that opens Google in Chrome, searches for "Nature Images" and prints the result-count text from the results page.
 
-## Author
-- Akshay Tripathi
+## What it does
 
-## Version
-python - 3.10.6
+[`main.py`](main.py) defines a `GoogleSearchTest` class that:
 
-## Date
-- 16-Aug-2023
+1. Starts a Chrome WebDriver session and maximizes the window
+2. Opens `https://www.google.com/`
+3. Waits (up to 40 s) for the search box (`name="q"`), types `Nature Images` and submits
+4. Waits (up to 10 s) for the `result-stats` element and prints its text, e.g. `Search Results: About ... results`
+5. Quits the browser
 
-## Requirements
-- Python
-- Selenium
-- Chrome WebDriver
+The search term is hard-coded in `perform_google_search()`; edit it there to search for something else.
+
+## Tech stack
+
+- Python 3 (written against 3.10)
+- Selenium 4
+- Google Chrome + ChromeDriver
 
 ## Setup
-1. Clone the repository.
-2. Create a virtual environment:
-    ```bash
-    python -m venv venv
-    ```
-3. Activate the virtual environment:
-    ```bash
-    venv\Scripts\activate
-    ```
-4. Install the required dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-5. Ensure you have the Chrome WebDriver installed and set the path in the script.
 
-## Usage
-1. Run the script using the command: `python google_search_test.py`.
-2. The script will open the Google search page, enter the search term ("Nature Images"), submit the search, and print the search results.
+Prerequisites: Python 3 and Google Chrome.
 
-## Deactivate Virtual Environment
-When you're done, deactivate the virtual environment:
 ```bash
-deactivate
+git clone https://github.com/AkshayTripathiAI/Google_search_automation.git
+cd Google_search_automation
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install selenium
 ```
 
-## Disclaimer
-This script is for educational and testing purposes only. Use responsibly and in accordance with Google's terms of service.
+There is no `requirements.txt`; Selenium is the only dependency.
+
+### Browser driver
+
+The script creates `ChromeService()` without a driver path, so Selenium looks for a driver itself. With Selenium 4.6 or newer, Selenium Manager downloads a ChromeDriver that matches your installed Chrome automatically. On older Selenium versions, put a matching `chromedriver` on your `PATH`.
+
+The `chromedriver_path` variable in `main.py` and the `Drivers/chromedriver` binary in the repo are left over from the original Linux setup. The path is only written to an environment variable that Selenium does not read, so it has no effect.
+
+## Usage
+
+```bash
+python main.py
+```
+
+## Project structure
+
+```
+Google_search_automation/
+├── main.py              # GoogleSearchTest: open Google, search, print result stats
+├── Drivers/
+│   └── chromedriver     # bundled ChromeDriver binary (Linux); not used by main.py
+└── README.md
+```
+
+## Note
+
+This script automates a third-party website. It can stop working whenever Google changes its page (element names and IDs such as `q` and `result-stats`, consent screens, bot checks), and automated querying may be subject to Google's terms of service. It is intended for learning Selenium, not for scraping.
