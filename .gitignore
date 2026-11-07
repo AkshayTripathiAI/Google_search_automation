@@ -1,1 +1,15 @@
-venv
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Drivers are resolved by Selenium Manager; do not commit binaries
+Drivers/
+chromedriver*
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
